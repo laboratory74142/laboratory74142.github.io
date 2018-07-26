@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>read google excel</title>
+	<style>
+		*{
+			font-family: "微軟正黑體";
+			font-weight: bold;
+			color: white;
+		}
+
+		body{
+			margin: 0;
+			padding: 0;
+			background-color: black;
+			text-align: center;
+		}
+
+		.view{
+
+		}
+
+		.top{
+			height: 40vh;
+		}
+
+		.middle{ 
+			height: 40vh; 
+		}
+
+		.bottom{ 
+			height: 20vh; 
+		}
+
+		.title{
+			color: black;
+			background-color: white;
+			font-size: 5em;
+		}
+
+		.img-file{
+			padding-top: 2.5%;
+			width: 90vw;
+			height: 30vh;
+		}
+
+		.data{
+			padding-top: 5%;
+		}
+		.value{
+			font-size: 10em;
+		}
+
+		.btn-group{
+			padding-top: 5%;
+		}
+		.btn{
+			width: 30vw;
+			height: 10vh;
+			border-radius: 10px;
+			color: black;
+			font-size: 4em;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			
+			$('.btn-reload').click(function(){Load()})
+			$('.btn-quit').click(function(){window.close()})
+
+			Load() //讀取資料
+			function Load(){
+				GoogleAppScript = "https://script.google.com/macros/s/AKfycbxzyD2JwqifLL722ewZQQ4l0zFTUIuvHp_qLJkkyq77MwYH52s/exec"
+
+				payload = {"method":"read"}
+
+				$.ajax({
+				url: GoogleAppScript,
+				type: "POST",
+				data: payload,
+				success: function(response){
+					result = response
+
+					$('.value').remove()
+					for(i=0; i<result.length; i++){
+						$('.data').append(
+							`<div class='value value${i}'>${result[i]}</div>`
+						)
+					}
+				}
+			})
+			}
+		})
+	</script>
+</head>
+<body>
+	<div class="view">
+		<div class="top">
+			<div class="header">
+				<div class="title title-image">心律圖</div>
+				<div class="img-view">
+					<img class="img-file" src="https://i.ytimg.com/vi/1G23u3ZTYys/maxresdefault.jpg">
+				</div>
+			</div>
+		</div>
+		<div class="middle">
+			<div class="title title-data">心跳</div>
+			<div class="data"></div>
+		</div>
+		<div class="bottom">
+			<div class="footer">
+				<div class="title title-footer">功能</div>
+				<div class="btn-group">
+					<button class="btn btn-default">測試</button>
+					<button class="btn btn-reload">重新整理</button>
+					<button class="btn btn-quit">離開</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
