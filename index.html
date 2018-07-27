@@ -6,7 +6,6 @@
 		*{
 			font-family: "微軟正黑體";
 			font-weight: bold;
-			color: white;
 		}
 
 		body{
@@ -17,19 +16,23 @@
 		}
 
 		.view{
-
+			width: auto;
+			height: auto;
 		}
 
 		.top{
-			height: 40vh;
+			width: 100%;
+			height: 50vh;
 		}
 
 		.middle{ 
-			height: 40vh; 
+			width: 100%;
+			height: 25vh; 
 		}
 
 		.bottom{ 
-			height: 20vh; 
+			width: 100%;
+			height: 25vh;
 		}
 
 		.title{
@@ -38,17 +41,20 @@
 			font-size: 5em;
 		}
 
+		.img-view{
+			padding-top: 1%;
+		}
 		.img-file{
-			padding-top: 2.5%;
-			width: 90vw;
-			height: 30vh;
+			width: 90%;
+			height: 90%;
 		}
 
 		.data{
-			padding-top: 5%;
+			padding-top: 1%;
 		}
 		.value{
-			font-size: 10em;
+			font-size: 400%;
+			color: white;
 		}
 
 		.btn-group{
@@ -62,10 +68,20 @@
 			font-size: 4em;
 		}
 	</style>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
 		$(document).ready(function(){
 			
+			heart_value = 0
+
+			$('.btn-heart').click(function(){
+				swal({
+					title: "心律值",
+					text: heart_value,
+					icon: "success"
+				})
+			})
 			$('.btn-reload').click(function(){Load()})
 			$('.btn-quit').click(function(){window.close()})
 
@@ -74,22 +90,30 @@
 				GoogleAppScript = "https://script.google.com/macros/s/AKfycbxzyD2JwqifLL722ewZQQ4l0zFTUIuvHp_qLJkkyq77MwYH52s/exec"
 
 				payload = {"method":"read"}
-
+                
+                $('.value').remove()
+                $('.img-file').remove()
+                
 				$.ajax({
-				url: GoogleAppScript,
-				type: "POST",
-				data: payload,
-				success: function(response){
-					result = response
+					url: GoogleAppScript,
+					type: "POST",
+					data: payload,
+					success: function(response){
+						result = response
 
-					$('.value').remove()
-					for(i=0; i<result.length; i++){
-						$('.data').append(
-							`<div class='value value${i}'>${result[i]}</div>`
+						heart_value = result[1]
+						
+						$('.img-view').append(
+							`<img class="img-file" src="https://i.ytimg.com/vi/1G23u3ZTYys/maxresdefault.jpg">`
 						)
+
+						for(i=0; i<result.length; i++){
+							$('.data').append(
+								`<div class='value value${i}'>${result[i]}</div>`
+							)
+						}
 					}
-				}
-			})
+				})
 			}
 		})
 	</script>
@@ -99,9 +123,7 @@
 		<div class="top">
 			<div class="header">
 				<div class="title title-image">心律圖</div>
-				<div class="img-view">
-					<img class="img-file" src="https://i.ytimg.com/vi/1G23u3ZTYys/maxresdefault.jpg">
-				</div>
+				<div class="img-view"></div>
 			</div>
 		</div>
 		<div class="middle">
@@ -112,7 +134,7 @@
 			<div class="footer">
 				<div class="title title-footer">功能</div>
 				<div class="btn-group">
-					<button class="btn btn-default">測試</button>
+					<button class="btn btn-heart">心跳</button>
 					<button class="btn btn-reload">重新整理</button>
 					<button class="btn btn-quit">離開</button>
 				</div>
