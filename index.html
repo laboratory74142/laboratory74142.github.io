@@ -11,7 +11,7 @@
 		body{
 			margin: 0;
 			padding: 0;
-			background-color: black;
+			background-color: skyblue;
 			text-align: center;
 		}
 		.view{
@@ -20,48 +20,49 @@
 
 		.top{
 			width: 100%;
-			height: 30vh;
+			height: 50vh;
 		}
 
 		.middle{ 
 			width: 100%;
-			height: 10vh; 
+			height: 20vh; 
 		}
 
 		.bottom{ 
 			width: 100%;
-			height: 10vh; 
+			height: 15vh; 
 		}
 
 		.title{
 			color: black;
-			background-color: white;
+			background-color: pink;
 			font-size: 2em;
 		}
 
 		.img-file{
-			padding-top: 2.5%;
-			width: 80vw;
-			height: 25vh;
+			padding-top: 1.5%;
+			width: 70%;
+			height: 70%;
+			cursor: pointer;
 		}
 
 		.data{
 			padding-top: 2.5%;
 		}
 		.value{
-			font-size: 2em;
-			color: white;
+			color: black;
+			font-size: 3em;
 		}
 
 		.btn-group{
-			padding-top: 2%;
+			padding-top: 2.5%;
 		}
 		.btn{
 			width: 30vw;
-			height: 5vh;
+			height: 10vh;
 			border-radius: 10px;
 			color: black;
-			font-size: 3em;
+			font-size: 2em;
 		}
 	</style>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -81,6 +82,10 @@
 			$('.btn-reload').click(function(){Load()})
 			$('.btn-quit').click(function(){window.close()})
 
+			$('.btn-b1').click(function(){swal("哈囉")})
+			$('.btn-b2').click(function(){swal("你好")})
+			$('.btn-b3').click(function(){swal("嗎?")})
+
 			Load() //讀取資料
 			function Load(){
 				GoogleAppScript = "https://script.google.com/macros/s/AKfycbxzyD2JwqifLL722ewZQQ4l0zFTUIuvHp_qLJkkyq77MwYH52s/exec"
@@ -96,20 +101,23 @@
 					data: payload,
 					success: function(response){
 						result = response
-
-						heart_value = result[1].toString()
 						
-						$('.img-view').append(
-							`<img class="img-file" src="https://i.ytimg.com/vi/1G23u3ZTYys/maxresdefault.jpg">`
+						img_link = result[1][1]
+						heart_value = result[1][0].toString()
+						
+						$('.img-view').append(`<img class="img-file" src="${img_link}">`)
+
+						$('.data').append(
+							`<div class='value value_heart_value'>${heart_value}</div>`
 						)
 
-						for(i=0; i<result.length; i++){
-							$('.data').append(
-								`<div class='value value${i}'>${result[i]}</div>`
-							)
-						}
+						$('.img-file').click(function(){
+							open(img_link)
+						})
 					}
 				})
+
+				
 			}
 		})
 	</script>
@@ -123,7 +131,7 @@
 			</div>
 		</div>
 		<div class="middle">
-			<div class="title title-data">心跳</div>
+			<div class="title title-data">心律值</div>
 			<div class="data"></div>
 		</div>
 		<div class="bottom">
@@ -133,6 +141,9 @@
 					<button class="btn btn-heart">心跳</button>
 					<button class="btn btn-reload">重新整理</button>
 					<button class="btn btn-quit">離開</button>
+					<button class="btn btn-b1">哈囉</button>
+					<button class="btn btn-b2">你好</button>
+					<button class="btn btn-b3">嗎?</button>
 				</div>
 			</div>
 		</div>
