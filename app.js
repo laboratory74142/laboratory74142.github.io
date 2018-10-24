@@ -101,7 +101,7 @@ $(document).ready(function(){
 				// )
 
 				//參考:https://forum.webflow.com/t/how-to-create-code-to-embed-a-dropbox-video/21259
-				video_link = "https://www.dropbox.com/s/qb5wf5ryr8rk9je/output.mp4?dl=0"
+				video_link = "https://www.dropbox.com/s/u6lbu8qfaw0ladv/output2.mp4?dl=0"
 				video_src = video_link.replace(video_link.split("/")[2], "dl.dropboxusercontent.com")
 
 				$('.video-js').remove() //清除舊影片
